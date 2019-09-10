@@ -6,7 +6,11 @@ import pandas as pd
 
 
 class BasicTransformer(BaseEstimator):
-    
+    """
+    Class to do simple transforms of the input DataFrame to allow processing by sklearn - see
+    https://medium.com/dunder-data/from-pandas-to-scikit-learn-a-new-exciting-workflow-e88e2271ef62 for
+    more details
+    """
     def __init__(self, cat_threshold=None, num_strategy='median',
                  return_df=False, scale_nums=True):
         # store parameters as public attributes

@@ -3,6 +3,25 @@ import numpy as np
 
 
 class ImageToML:
+    """
+    Class to allow a sklearn classifier to be applied to a raster.
+
+    Requires a raster file containing a stack of bands *exactly matching* the data that was used
+    to train the classifier (same datatypes, same order etc).
+    
+    To use, follow these steps:
+
+    1. Instatiate the class: `i2ml = ImageToML()
+    
+    2. Call `i2ml.image_to_ml_input` with the raster filename to convert the raster into a format that sklearn
+    can process - including dealing with no data values.
+
+    3. Process the result of this through the sklearn classifier - usually using something like `classifier.predict()`
+
+    4. Take the result of the classification and convert it back into a raster (with georeferencing etc all taken
+    care of) by running `i2ml.ml_output_to_image()`.
+
+    """
     def __init__(self):
         pass
 

@@ -24,6 +24,9 @@ from .BasicTransformer import BasicTransformer
 
 
 def load_data(filename):
+    """
+    Loads the training data
+    """
     df = pd.read_csv(filename, na_values='-9999.0')
     df = df.drop(['DoD', 'Z_diff_foc'], axis=1, errors='ignore')
     df.DepthRC_JD = df.DepthRC_JD.fillna(0)
@@ -33,7 +36,9 @@ def load_data(filename):
 #    'DepthRC_JD', 'Type', 'Pt_Density', 'CQ_Mean', 'CQmean_Foc', 'Rough40',
 #    'Rough40_Foc', 'Precsn_m', 'Shadow', 'Blur', 'Reflection']
 
-
+# List of different types of variables so we can separate out the various types to see if some
+# variables are more useful for classification than others
+# In the end we used all the variables as this didn't seem to change things much
 FOCAL_VARS = ['MaxSl_Foc', 'MinSl_Foc', 'StdSl_Foc',
               'CQ_Mean_Foc', 'Rough40_Foc']
 NON_FOCAL_VARS = ['Slope', 'Rough40', 'CQ_Mean']
@@ -46,6 +51,11 @@ def get_processed_data(df, categorised=False, focal=False,
                        absolute=False, use_cols=None,
                        classes=[-2, -1, -0.5, -0.2, -0.1, -0.05, 0, 0.05, 0.1, 0.2, 0.5, 1, 6.5],
                        subset=None):
+    """
+    Pre-process the data, selecting columns, categorising Z_diff according to specific classes,
+    scaling, selecting specific columns etc.
+    Parameters are mostly self-explanatory
+    """
     if subset is not None:
         df = df[df['Type'] == subset]
     col = df.Z_diff
@@ -87,8 +97,10 @@ def get_train_and_test(df, categorised=False, oversample=True, focal=False,
                        scale=True, just_cols=False, exclude=None,
                        absolute=False,
                        classes=[-2, -1, -0.5, -0.2, -0.1, -0.05, 0, 0.05, 0.1, 0.2, 0.5, 1, 6.5],
-                       subset=None):    
-    
+                       subset=None):
+    """
+    Split the data into training and test subsets, including oversampling (by default)
+    """ 
     X, y = get_processed_data(df, categorised, focal, scale, just_cols, exclude, absolute, classes, subset=subset)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33)
@@ -101,6 +113,11 @@ def get_train_and_test(df, categorised=False, oversample=True, focal=False,
     return X_train, X_test, y_train, y_test
 
 def create_pipeline(kind, pca_n_elements=None):
+    """
+    Create various sklearn pipelines that were investigated for classification.
+
+    The one used for the final work presented in the paper was 'gnb_pca_default'
+    """
     if kind == 'rf_classifier':
         return ensemble.RandomForestClassifier(n_estimators=100)
     elif kind == 'gaussian_nb':
