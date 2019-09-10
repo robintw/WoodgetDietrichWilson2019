@@ -70,27 +70,16 @@ def get_processed_data(df, categorised=False, focal=False,
     subdf = df[selected_columns]
     
     if exclude is not None:
-        print(exclude)
-        print(subdf.shape)
         subdf = subdf.drop(exclude, axis=1)
-        print(subdf.shape)
 
     if use_cols is not None:
         subdf = subdf[use_cols]
     
-    print('Before BT')
-    print(subdf.shape)
-    print(subdf.columns)
     X = BasicTransformer(cat_threshold=3, return_df=True, scale_nums=scale).fit_transform(subdf)
-    print('After BT')
-    print(X.shape)
-    print(X.columns)
 
     if just_cols:
         return X.columns
 
-    print('At return')
-    print(X.shape)
     return X, y
 
 
