@@ -23,6 +23,7 @@ If you can't do that for some reason, then the main dependencies are listed belo
  - tpot
  - tqdm
 
+## Code explanation
 The main library code is in the `ErrorML` folder. The main `ErrorML.py` code deals with loading and pre-processing the data, as well as creating various classifiers (including the final Gaussian Naive Bayes/PCA classifier used in the paper). The code in `ImageToML.py` deals with applying a scikit-learn classifier to an image using `GDAL` and `rasterio`.
 
 The notebooks in the root of the repository each perform one of the analyses used in the work for the paper. The results from some of these notebooks weren't reported in the paper (eg. `Initial ML investigations.ipynb` and `Investigate PCA Parameters.ipynb`) and some are tidier than others. They all use the `ErrorML` library for data loading and preprocessing.
