@@ -1,0 +1,11 @@
+.tox/
+tmp_in.txt
+*tmp.in*
+*.pyc
+.redcar
+build/*
+dist/*
+doc/build/*
+*.mie
+.ropeproject
+.coverage
